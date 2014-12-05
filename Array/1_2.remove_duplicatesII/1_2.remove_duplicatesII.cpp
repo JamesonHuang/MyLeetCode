@@ -8,7 +8,12 @@
                         （5）A = [1,1,1,2,2,3] ==> A.len = 5,A = [1,1,2,2,3]
 
 	> Conclusion:
-                        （1）条件选==还是！=，代码复杂度可能天差地别
+                        （1）条件语句优化技能有待提高
+                        （2）策略：
+                            A.思路与上一道差不多，区别是引入计数变量
+                            B.在第一次出现重复时，做相应处理
+                            C.多次重复，只移动快游标
+                            D.A[p] != A[q]时，注意将count重置为1
 	> Author:           rh_Jameson
 	> Created Time:     2014年12月03日 星期三 13时23分00秒
  ************************************************************************/
@@ -54,7 +59,7 @@ int removeDuplicates(int A[],int n)
     return index + 1;
 }
 
-//============================优化条件语句版本：Wrong==================================//
+//============================优化条件语句版本：Accepted,116 ms==================================//
 int removeDuplicatesOpt(int A[],int n)
 {
     int count = 1;                  //计数变量
@@ -72,7 +77,7 @@ int removeDuplicatesOpt(int A[],int n)
             count++;
             if(count == 2)
             {
-                A[++index] == A[i];
+                A[++index] = A[i];
             }
         }
         else
@@ -83,6 +88,24 @@ int removeDuplicatesOpt(int A[],int n)
     }
     return index + 1;
 }
+
+//============================参考版本：Accepted,68ms===============================//
+    int removeDuplicates(int A[], int n) {
+        if(n <= 2)                      //小于2直接返回n
+        {
+            return n;
+        }
+        //直接从下标2开始遍历
+        int index = 2;
+        for(int i = 2; i < n; ++i)
+        {
+            if(A[index - 2] != A[i])
+            {
+                A[index++] = A[i];
+            }
+        }
+        return index;
+    }
 
 
 
